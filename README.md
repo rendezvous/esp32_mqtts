@@ -24,13 +24,13 @@ Test your installation by checking the installed version
 **Instructions for generating server and AC certificates:**
 
 
-1- openssl req -new -x509 -days 365 -extensions v3_ca -keyout ca.key -out ca.crt (AC cert + key generation)
+1- openssl req -new -x509 -days 365 -extensions v3_ca -keyout ca.key -out ca.crt #AC cert + key generation
 
-2- openssl genrsa -out server.key 2048 (server key generation)
+2- openssl genrsa -out server.key 2048 #server key generation
 
-3- openssl req -out server.csr -key server.key -new (certificate signature request generation)
+3- openssl req -out server.csr -key server.key -new #certificate signature request generation
 
-4- openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 180 (certificate signature by AC)
+4- openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 180 #certificate signature by AC
 
 5- Move the AC certificate and key to /etc/mosquitto/ca_certificates
 
@@ -59,5 +59,5 @@ keyfile /etc/mosquitto/certs/server.key
 
 ```
 
-**Testing your Mosquitto server:*** https://randomnerdtutorials.com/testing-mosquitto-broker-and-client-on-raspbbery-pi/
+**Testing your Mosquitto server:** https://randomnerdtutorials.com/testing-mosquitto-broker-and-client-on-raspbbery-pi/
 
