@@ -1,5 +1,5 @@
 #include <WiFi.h>
-#include </home/jamengual/Desktop/UIB/TFG/mqtt/prueba1_tls/src/dependencies/WiFiClientSecure/WiFiClientSecure.h>
+#include <src/dependencies/WiFiClientSecure/WiFiClientSecure.h>
 #include <PubSubClient.h>
 //#include <ESPmDNS.h>
 
