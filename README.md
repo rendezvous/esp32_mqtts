@@ -61,3 +61,4 @@ keyfile /etc/mosquitto/certs/server.key
 
 **Testing your Mosquitto server:** https://randomnerdtutorials.com/testing-mosquitto-broker-and-client-on-raspbbery-pi/
 
+If you have an active firewall you'll need to allow connections to the ports used by mqtt
