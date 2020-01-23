@@ -3,7 +3,7 @@
 
 Tested on Ubuntu 18.04.3 LTS
 
-**Instructions for setting up a Mosquitto server in your machine:**
+**Instructions for setting up a Mosquitto server on your machine:**
 
 ```
 sudo apt update
