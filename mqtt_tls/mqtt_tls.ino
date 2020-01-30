@@ -1,34 +1,37 @@
-#include <src/dependencies/WiFiClientSecure/WiFiClientSecure.h>
+#include </home/jamengual/Desktop/UIB/TFG/mqtt/github/mqtt_tls/src/dependencies/WiFiClientSecure/WiFiClientSecure.h>
 //#include <WiFiClientSecure.h> //this is the last version on github, but it doesn't work
 #include <PubSubClient.h>
 
 
-const char* ssid     = "";     // your network SSID (name of wifi network)
-const char* password = ""; // your network password
+const char* ssid     = "MOVISTAR_AD49";     // your network SSID (name of wifi network)
+const char* password = "jwuEP2oQUAS8Jt2PbaxB"; // your network password
 
-const char*  server = "192.168.1.144";  
+const char*  server = "192.168.1.43";  
 
 
 //place your CA certificate here
 const char* test_root_ca= \
      "-----BEGIN CERTIFICATE-----\n" \
-"MIIDIzCCAgugAwIBAgIUTd2Yl5R848td5oeNgfZ+iigKTJswDQYJKoZIhvcNAQEL\n" \
-"BQAwITELMAkGA1UEBhMCRVMxEjAQBgNVBAMMCW1vc3F1aXR0bzAeFw0xOTEyMTIy\n" \
-"MjQ4MDJaFw0yMDEyMTEyMjQ4MDJaMCExCzAJBgNVBAYTAkVTMRIwEAYDVQQDDAlt\n" \
-"b3NxdWl0dG8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDu2wD5OUTZ\n" \
-"20UmvCoNMUR3QgKEi+W/y7e4YE0vM1duhzocPAxEBd0PyOkQFRIT9YGZbl0vDqIg\n" \
-"JsAWrh3209Qkf5u9vmaTucOAUlWozim1XtWPUi1+USANziCsgIXdGWC3UiUgN2rf\n" \
-"swNHgeS1GcOyowEB9wdMqk5vsfkJQc0eOzzpGDl5BOqB2u65HEjf8HuM1re5++jy\n" \
-"g29Lip+2oeAm5493LL9+uKmvOoiafi64L8ssiD0zH7GVyfu5jU06ClhZ89Qcocu6\n" \
-"i8c3Qkbu54c7QC8m0EtAwhSgb0FYEGx4Q30PzVv0q8gcUDbib/xsHJLBm3DUTrfJ\n" \
-"U5pWwfKSQPS9AgMBAAGjUzBRMB0GA1UdDgQWBBSSa4crv/FZSPvQDgvnRKIiWp1c\n" \
-"UDAfBgNVHSMEGDAWgBSSa4crv/FZSPvQDgvnRKIiWp1cUDAPBgNVHRMBAf8EBTAD\n" \
-"AQH/MA0GCSqGSIb3DQEBCwUAA4IBAQDWGc/YRAM9XpN8r8r2rMz8eZL/zvIr+RQg\n" \
-"9ZRQRvKPuwGhkQhakCFNx73Z9qVbQ53fX5Z5b2hvh7zl1xFTuVLuJcIPFiNvn/6k\n" \
-"PLygiOV91LuXBZJydssA8pV2sXPFm5/uMZ9A+aDAb7aUzifGpGWX7360riepW3s3\n" \
-"6Xgmp6cVQs0JYKCpmPQFdir8qMnaCziVUvnukd3cGj7R3feSxL65gR0fIcBkyrZr\n" \
-"eHbAko9PYULIJ/IDlh7RKeKWBrP5Jubdq6RMjNRLmlNTE8dnhUFVspxCgH/GX/H2\n" \
-"iFNRLSLjIoEDWnqTTl6XoCD+dZPUZCNScu0sq09cgutfOaXcsmsG\n" \ 
+"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\n" \ 
 "-----END CERTIFICATE-----\n";
 
 // You can use x.509 client certificates if you want
@@ -126,6 +129,9 @@ void setup() {
   client.setCallback(receivedCallback); 
 }
 
+int counter = 0;
+long lastMsg = 0;
+char msg[20];
 void loop() {
   /* if client was disconnected then try to reconnect again */
   if (!client.connected()) {
@@ -134,6 +140,20 @@ void loop() {
   /* this function will listen for incomming 
   subscribed topic-process-invoke receivedCallback */
   client.loop();
-  
+
+   /* we increase counter every 3 secs
+  we count until 3 secs reached to avoid blocking program if using delay()*/
+  long now = millis();
+  if (now - lastMsg > 3000) {
+    lastMsg = now;
+    if (counter < 100) {
+      counter++;
+      snprintf (msg, 20, "%d", counter);
+      /* publish the message */
+      client.publish("esp32/pub", msg);
+    }else {
+      counter = 0;  
+    }
+  }
   
 }
