@@ -31,9 +31,9 @@ The example ```mqtt_tls.ino``` simply connects to port 8883 of your server and s
 
 3- If it's not running: ```sudo systemctl start mosquitto.service```
 
-4- Upload the sketch (mqtt_tls.ino) to your ESP32 via Arduino IDE and complete the script with your network parameters. If everything goes fine and you check your serial window, it should indicate that the connection to has been made succesfuly.
+4- Upload the sketch (mqtt_tls.ino) to your ESP32 via Arduino IDE and complete the script with your network parameters. If everything goes fine and you check your serial window, it should indicate that the connection to the mqqt server has been made succesfuly.
 
-5- To turn the LED on go to a terminal window and paste: ```mosquitto_pub -d -h <hostname> --cafile /etc/mosquitto/ca_certificates/ca.crt -t esp32/led -m "1" -p 8883``` where "hostname" should be the name of your system and the name you've put as your CN in both your CA and server certificates.
+5- To turn the LED on, go to a terminal window and paste: ```mosquitto_pub -d -h <hostname> --cafile /etc/mosquitto/ca_certificates/ca.crt -t esp32/led -m "1" -p 8883``` where "hostname" should be the name of your system and the name you've put as your CN in both your CA and server certificates.
 
 6- To check if the ESP32 is publishing correctly to esp32/pub: ```mosquitto_sub -d -h <hostname> --cafile /etc/mosquitto/ca_certificates/ca.crt -t esp32/pub -p 8883```
 
