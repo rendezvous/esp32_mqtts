@@ -3,8 +3,8 @@
 #include <PubSubClient.h>
 
 
-const char* ssid     = "MOVISTAR_AD49";     // your network SSID (name of wifi network)
-const char* password = "jwuEP2oQUAS8Jt2PbaxB"; // your network password
+const char* ssid     = "";     // your network SSID (name of wifi network)
+const char* password = ""; // your network password
 
 const char*  server = "192.168.1.43";  
 
