@@ -60,7 +60,9 @@ public:
     void setCACert(const char *rootCA);
     void setCertificate(const char *client_ca);
     void setPrivateKey (const char *private_key);
+const char* getPrivateKey ();
 
+const char* getCert ();
     operator bool()
     {
         return connected();
