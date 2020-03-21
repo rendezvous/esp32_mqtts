@@ -1,6 +1,6 @@
-#include </home/jamengual/Desktop/UIB/TFG/mqtt/github/mqtt_tls/src/dependencies/WiFiClientSecure/WiFiClientSecure.h>
+#include </home/jamengual/Desktop/UIB/TFG/mqtt/client_certificates/mqtt_tls/src/dependencies/WiFiClientSecure/WiFiClientSecure.h>
 //#include <WiFiClientSecure.h> //this is the last version on github, but it doesn't work
-#include <PubSubClient.h>
+#include </home/jamengual/Desktop/UIB/TFG/mqtt/client_certificates/mqtt_tls/src/dependencies/PubSubClient/PubSubClient.h>
 
 
 const char* ssid     = "";     // your network SSID (name of wifi network)
@@ -35,63 +35,37 @@ const char* test_root_ca= \
 "-----END CERTIFICATE-----\n";
 
 // You can use x.509 client certificates if you want
-//const char* test_client_key = "";   //to verify the client
-//const char* test_client_cert = "";  //to verify the client
+char* test_client_cert = "";  //to verify the client
 
+char* test_client_key = "";   //to verify the client
+
+byte myPayloadCert [2048];
+byte myPayloadKey [2048];
+char macAddress [48];
 
 WiFiClientSecure espClient;
 PubSubClient client(espClient);
 const int led = 2;
 
 #define LED_TOPIC     "esp32/led" /* 1=on, 0=off */
-
-void receivedCallback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message received: ");
-  Serial.println(topic);
-
-  Serial.print("payload: ");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
-  }
-  Serial.println();
-  /* we got '1' -> on */
-  if ((char)payload[0] == '1') {
-    Serial.print("uno");
-    digitalWrite(led, HIGH); 
-  } else {
-    Serial.print("cero");
-    /* we got '0' -> on */
-    digitalWrite(led, LOW);
-  }
-
-}
-
-void mqttconnect() {
-  /* Loop until reconnected */
-  while (!client.connected()) {
-    Serial.print("MQTT connecting ...");
-    /* client ID */
-    String clientId = "ESP32Client_test";
-    /* connect now */
-    if (client.connect(clientId.c_str())) {
-      Serial.println("connected");
-      /* subscribe topic */
-      client.subscribe(LED_TOPIC);
-    } else {
-      Serial.print("failed, status code =");
-      Serial.print(client.state());
-      Serial.println("try again in 5 seconds");
-      /* Wait 5 seconds before retrying */
-      delay(5000);
-    }
-  }
-}
+#define CERT_TOPIC    "cl/cli_0"
+#define COM_TOPIC    "com/cli_0"
+#define KEY_TOPIC    "k/cli_0"
 
 void setup() {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
   delay(100);
+  /* set led as output to control led on-off */
+  pinMode(led, OUTPUT);
+  /* Loop until reconnected */
 
+  connectWiFi();
+
+  mqttconnect(false);
+}
+
+void connectWiFi(){
   Serial.print("Attempting to connect to SSID: ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
@@ -105,12 +79,67 @@ void setup() {
 
   Serial.print("Connected to ");
   Serial.println(ssid);
+}
 
-  /* set led as output to control led on-off */
-  pinMode(led, OUTPUT);
+void receivedCallback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message received: ");
+  Serial.println(topic);
+  payload[length]='\0';
+  if(strcmp(topic, LED_TOPIC) == 0 ) {
+      
+      /* we got '1' -> on */
+      if ((char)payload[0] == '1') {
+        Serial.print("uno");
+        digitalWrite(led, HIGH); 
+      } else {
+        Serial.print("cero");
+          /* we got '0' -> off */
+        digitalWrite(led, LOW);
+      }  
+  }
+  if (strcmp(topic, CERT_TOPIC)==0){
+     memcpy(myPayloadCert, payload, length);
+     //test_client_cert = (char*)payload; 
+     Serial.println(test_client_cert);
+     delay(200);
+     client.publish(COM_TOPIC, "1");
+      
+  }
+
+  if (strcmp(topic, KEY_TOPIC)==0){
+     memcpy(myPayloadKey, payload, length);
+     delay(200);
+     WiFi.macAddress().toCharArray(macAddress, 48);
+     client.publish(COM_TOPIC, macAddress);
+    //espClient.stop();
+    delay(500);
+     
+   
+
+     mqttconnect(true);
+      
+  }
   
-  espClient.setCACert(test_root_ca); //
-  
+
+}
+
+void mqttconnect(boolean certi) {
+
+  espClient.setCACert(test_root_ca); 
+  if(certi){
+      Serial.println("SETTING UP CLIENT");
+      //Serial.println(test_client_cert);
+     test_client_cert = (char*)myPayloadCert;
+     test_client_key = (char*)myPayloadKey;
+     espClient.setCertificate(test_client_cert);
+     espClient.setPrivateKey(test_client_key);
+     Serial.println("INFO CLIENT");
+     Serial.println(espClient.getCert());
+     Serial.println("**********************");
+  Serial.println(espClient.getPrivateKey());     
+  }
+ 
+   
   //client.setCertificate(test_client_key); // for client verification
   //client.setPrivateKey(test_client_cert);  // for client verification
 
@@ -119,23 +148,62 @@ void setup() {
    * Inside the connect function there's a call to another function in the ssl_client library, where the tls/ssl connection is set up
    */
   Serial.println("\nStarting connection to server...");
-  if (!espClient.connect(server, 8883))
+  while(!espClient.connect(server, 8883)){
+    if (!espClient.connect(server, 8883)){
+    Serial.println("Connection failed!");
+    delay(5000);
+  }else {
+    Serial.println("Connected to server!");
+  }
+  }
+  /*if (!espClient.connect(server, 8883))
     Serial.println("Connection failed!");
   else {
     Serial.println("Connected to server!");
-  }
+  }*/
   //client.setServer(server, 8883); //connection via Pubsubclient lib
 
-  client.setCallback(receivedCallback); 
+  client.setCallback(receivedCallback);
+  while (!client.connected()) {
+    Serial.print("MQTT connecting ...");
+    /* client ID */
+    String clientId = "ESP32Client_test";
+    /* connect now */
+    if (client.connect(clientId.c_str())) {
+      Serial.println("connected");
+      /* subscribe topic */
+      client.subscribe(LED_TOPIC);
+      if(client.subscribe(CERT_TOPIC)){
+        Serial.println("funciona sub");
+      } else {
+        Serial.println("no sub");
+      }
+      client.subscribe(KEY_TOPIC);
+    } else {
+      Serial.print("failed, status code =");
+      Serial.print(client.state());
+      Serial.println("try again in 5 seconds");
+      /* Wait 5 seconds before retrying */
+      delay(5000);
+    }
+  }
 }
+
+
 
 int counter = 0;
 long lastMsg = 0;
 char msg[20];
+
+
 void loop() {
   /* if client was disconnected then try to reconnect again */
+  if(WiFi.status() != WL_CONNECTED){
+    connectWiFi();
+  }
+  
   if (!client.connected()) {
-    mqttconnect();
+    mqttconnect(true);
   }
   /* this function will listen for incomming 
   subscribed topic-process-invoke receivedCallback */
