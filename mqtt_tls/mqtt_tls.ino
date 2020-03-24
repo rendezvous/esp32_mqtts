@@ -8,30 +8,29 @@ const char* password = ""; // your network password
 
 const char*  server = "192.168.1.43";  
 
-
 //place your CA certificate here
 const char* test_root_ca= \
      "-----BEGIN CERTIFICATE-----\n" \
-"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\n" \ 
+"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\n" \
+"mA==\n" \
 "-----END CERTIFICATE-----\n";
 
 // You can use x.509 client certificates if you want
@@ -58,6 +57,9 @@ void setup() {
   delay(100);
   /* set led as output to control led on-off */
   pinMode(led, OUTPUT);
+  memset(myPayloadCert, 0, 2048);
+  memset(myPayloadKey, 0, 2048);
+  Serial.println((char*)myPayloadCert[0]);
   /* Loop until reconnected */
 
   connectWiFi();
@@ -126,7 +128,8 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
 void mqttconnect(boolean certi) {
 
   espClient.setCACert(test_root_ca); 
-  if(certi){
+  
+  if(certi && myPayloadCert[0] != 0 && myPayloadKey[0] != 0 ){
       Serial.println("SETTING UP CLIENT");
       //Serial.println(test_client_cert);
      test_client_cert = (char*)myPayloadCert;
@@ -149,13 +152,10 @@ void mqttconnect(boolean certi) {
    */
   Serial.println("\nStarting connection to server...");
   while(!espClient.connect(server, 8883)){
-    if (!espClient.connect(server, 8883)){
     Serial.println("Connection failed!");
     delay(5000);
-  }else {
-    Serial.println("Connected to server!");
   }
-  }
+  Serial.println("Connected to server!");
   /*if (!espClient.connect(server, 8883))
     Serial.println("Connection failed!");
   else {
