@@ -26,7 +26,7 @@ host=$(hostname)
 					echo "$(tput setaf 2)Requesting certificate signature to the CA $(tput init)";
 					printf 'ES\n\n\n\n\nclient'$n'\n\n\n\n' | sudo openssl req -out client.csr -key client.key -new; #certificate signature request generation
 					echo "$(tput setaf 2)CA signing server certificate $(tput init)";
-					sudo openssl x509 -req -in client.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out client.crt --passin pass:1234 -days 45; #certificate signature
+					sudo openssl x509 -req -in client.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out client.crt --passin pass:1234 -days 15; #certificate signature
 					cd ..
 					echo "$(tput setaf 2)Publishing certificate and key... $(tput init)";
 					certTopic="cl/"$cliName
