@@ -195,3 +195,13 @@ void WiFiClientSecure::setPrivateKey (const char *private_key)
     _private_key = private_key;
 }
 
+const char* WiFiClientSecure::getPrivateKey ()
+{
+    return _private_key;
+}
+
+const char* WiFiClientSecure::getCert ()
+{
+    return _cert;
+}
+

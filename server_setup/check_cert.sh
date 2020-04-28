@@ -10,12 +10,14 @@ current_epoch=$(date -d "$currentdate" +"%s")
 seconds_left=$(( $expiration_epoch - $current_epoch ))
 days_left=$(( $seconds_left / ( 3600 * 24 )))
 
+host=$(hostname)
+
 if [ $days_left -lt 8 ]
 then
 	rm server*
-	openssl genrsa -out server.key 2048; #server key generation
-	openssl req -out server.csr -key server.key -new; #certificate signature request generation
-	openssl x509 -req -in server.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out server.crt -days 45; #certificate signature
+	sudo openssl genrsa -out server.key 2048; #server key generation
+	printf 'ES\n\n\n\n\n'$host'\n\n\n\n' | sudo openssl req -out server.csr -key server.key -new; #certificate signature request generation
+	sudo openssl x509 -req -in server.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out server.crt -passin pass:1234 -days 45; #certificate signature
 	
 	cd /etc/mosquitto
 	if [[ ! -d cert_log ]]
