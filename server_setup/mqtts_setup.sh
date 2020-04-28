@@ -1,8 +1,14 @@
 #!/bin/bash
 
 echo "$(tput setaf 2)Installing mosquitto and mosquitto-clients $(tput init)"
-sudo apt-get install mosquitto mosquitto-clients
 
+#raspberry pi4 installation commands (raspbian)
+sudo wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+sudo apt-key add mosquitto-repo.gpg.key
+cd /etc/apt/sources.list.d/
+sudo wget http://repo.mosquitto.org/debian/mosquitto-stretch.list
+sudo apt-get update
+sudo apt-get install mosquitto mosquitto-clients
 
 while true; do
     read -p "$(tput setaf 2)Do you have a public domain name for this server? (Y)es/(N)o:$(tput init)" yn
@@ -59,6 +65,7 @@ while true; do
 
 		echo "$(tput setaf 2)Updating your mosquitto configuration file  $(tput init)";
 		sudo cat mosquitto.conf > /etc/mosquitto/mosquitto.conf
+		sudo cat passwords > /etc/mosquitto/passwdfile
 		sudo systemctl restart mosquitto.service
 
 		exit;;
