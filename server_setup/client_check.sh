@@ -59,7 +59,7 @@ host=$(hostname)
 						mkdir client_cert_log
 					fi
 					cd client_cert_log
-					sudo echo "[$current_date]:" "(RENEWAL) Client $n certificate was renewed" >> client_certificate_renewal.log
+					
 					sudo echo "[$current_date]:" "Client $n certificate was not renewed. "$days_left" days left until its expiration date" >> client_certificate_renewal.log
 				fi
 				
