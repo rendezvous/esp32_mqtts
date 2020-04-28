@@ -5,8 +5,7 @@ echo "$(tput setaf 2)Installing mosquitto and mosquitto-clients $(tput init)"
 #raspberry pi4 installation commands (raspbian)
 sudo wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
 sudo apt-key add mosquitto-repo.gpg.key
-cd /etc/apt/sources.list.d/
-sudo wget http://repo.mosquitto.org/debian/mosquitto-stretch.list
+sudo wget http://repo.mosquitto.org/debian/mosquitto-stretch.list -P /etc/apt/sources.list.d/
 sudo apt-get update
 sudo apt-get install mosquitto mosquitto-clients
 
