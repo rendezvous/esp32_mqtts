@@ -41,7 +41,7 @@ while true; do
 		echo "$(tput setaf 2)First create a key pair for the CA $(tput init)";
 		sudo openssl genrsa -des3 --passout pass:1234 -out ca.key 2048
 		echo "$(tput setaf 2)Generating CA certificate and key $(tput init)";
-		host=$(hostname)
+		host=$(hostname -I)
 		printf 'ES\nCA\n\n\n\n'$host'\n\n\n\n' | sudo openssl req -new -x509 -days 1826 -key ca.key -out ca.crt --passin pass:1234
 		#openssl req -new -x509 -days 365 -extensions v3_ca -keyout ca.key -out ca.crt; #CA cert + key generation 
 		echo "$(tput setaf 2)Generating server key $(tput init)";
