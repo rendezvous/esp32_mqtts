@@ -41,13 +41,13 @@ while true; do
 		echo "$(tput setaf 2)First create a key pair for the CA $(tput init)";
 		sudo openssl genrsa -des3 --passout pass:1234 -out ca.key 2048
 		echo "$(tput setaf 2)Generating CA certificate and key $(tput init)";
-		host=$(hostname -I)
+		host=$(hostname)
 		printf 'ES\nCA\n\n\n\n'$host'\n\n\n\n' | sudo openssl req -new -x509 -days 1826 -key ca.key -out ca.crt --passin pass:1234
 		#openssl req -new -x509 -days 365 -extensions v3_ca -keyout ca.key -out ca.crt; #CA cert + key generation 
 		echo "$(tput setaf 2)Generating server key $(tput init)";
 		sudo openssl genrsa -out server.key 2048; #server key generation
 		echo "$(tput setaf 2)Requesting certificate signature to the CA $(tput init)";
-		printf 'ES\n\n\n\n\n'$host'\n\n\n\n' | sudo openssl req -out server.csr -key server.key -new; #certificate signature request generation
+		sudo openssl req -out server.csr -key server.key -new -subj "/C=ES/ST=Palma/L=test/O=Global Security/OU=IT Department/CN=192.168.1.40"; #certificate signature request generation
 		echo "$(tput setaf 2)CA signing server certificate $(tput init)";
 		sudo openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -passin pass:1234 -days 45; #certificate signature by CA
 		echo "$(tput setaf 2)Moving the CA certificate and key to /etc/mosquitto/ca_certificates  $(tput init)";
