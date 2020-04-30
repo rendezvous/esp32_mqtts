@@ -55,6 +55,7 @@ while true; do
 		echo "$(tput setaf 2)Moving the server certificate and key to /etc/mosquitto/certs  $(tput init)";
 		sudo mv server.crt server.key /etc/mosquitto/certs
 		sudo rm ca.srl server.csr
+		sudo mkdir /etc/mosquitto/cron
 		sudo mv check_cert.sh /etc/mosquitto/cron
 		chown -R pi /etc/mosquitto/cron
 		echo "$(tput setaf 2)Adding new cron job for the automatic server certificate renewal  $(tput init)";
