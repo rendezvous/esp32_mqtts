@@ -2,7 +2,7 @@
 
 echo "$(tput setaf 2)Setting up client certificates $(tput init)"
 
-
+sudo mv client_check.sh /etc/mosquitto/cron
 while true; do
     read -p "$(tput setaf 2)Introduce the number of clients in your system: $(tput init)" clients
     case $clients in
@@ -43,7 +43,7 @@ while true; do
 
 		echo "$(tput setaf 2)Adding new cron job for the automatic server certificate renewal  $(tput init)";
 		sudo crontab -l > cron_temp
-		echo '30 3 * * * ./client_check' >> cron_temp
+		echo '30 3 * * * /etc/mosquitto/cron/client_check.sh' >> cron_temp
 		sudo crontab cron_temp
 		sudo rm cron_temp
 		echo "$(tput setaf 2)CONFIG DONE! $(tput init)";
