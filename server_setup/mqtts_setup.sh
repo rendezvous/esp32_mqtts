@@ -63,6 +63,8 @@ while true; do
 		echo '30 3 * * * /etc/mosquitto/cron/check_cert' >> cron_temp
 		crontab cron_temp
 		rm cron_temp
+		sudo mkdir /etc/mosquitto/restart
+		sudo cp mosquitto.conf /etc/mosquitto/restart
 
 		echo "$(tput setaf 2)Updating your mosquitto configuration file  $(tput init)";
 		sudo cat mosquitto.conf > /etc/mosquitto/mosquitto.conf
