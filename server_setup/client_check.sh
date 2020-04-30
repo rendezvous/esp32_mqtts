@@ -3,6 +3,7 @@
 
 current_date=$(date)
 current_epoch=$(date -d "$currentdate" +"%s")
+cd /etc/mosquitto/clients
 
 host=$(hostname)
 
