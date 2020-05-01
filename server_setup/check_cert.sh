@@ -19,7 +19,7 @@ then
 	printf 'ES\n\n\n\n\n'$host'\n\n\n\n' | sudo openssl req -out server.csr -key server.key -new; #certificate signature request generation
 	sudo openssl x509 -req -in server.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out server.crt -passin pass:1234 -days 45; #certificate signature
 	
-	cd /etc/mosquitto
+	cd /etc/mosquitto/cron
 	if [[ ! -d cert_log ]]
 	then
 		mkdir cert_log
@@ -29,7 +29,7 @@ then
 
 	sudo systemctl restart mosquitto
 else
-	cd /etc/mosquitto
+	cd /etc/mosquitto/cron
 	if [[ ! -d cert_log ]]
 	then
 		mkdir cert_log
