@@ -61,7 +61,7 @@ while true; do
 		sudo chown -R pi:pi /etc/mosquitto/cron
 		echo "$(tput setaf 2)Adding new cron job for the automatic server certificate renewal  $(tput init)";
 		crontab -l > cron_temp
-		echo '30 3 * * * /etc/mosquitto/cron/check_cert' >> cron_temp
+		echo '30 3 * * * sudo /etc/mosquitto/cron/check_cert' >> cron_temp
 		crontab cron_temp
 		rm cron_temp
 
