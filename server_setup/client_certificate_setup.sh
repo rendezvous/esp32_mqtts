@@ -3,6 +3,7 @@
 echo "$(tput setaf 2)Setting up client certificates $(tput init)"
 
 sudo cp client_check.sh /etc/mosquitto/cron
+chmod +x /etc/mosquitto/cron/client_check.sh
 sudo mkdir /etc/mosquitto/clients
 
 while true; do
