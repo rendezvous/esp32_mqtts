@@ -15,9 +15,9 @@ host=$(hostname)
 if [ $days_left -lt 8 ]
 then
 	rm server*
-	sudo openssl genrsa -out server.key 2048; #server key generation
-	printf 'ES\n\n\n\n\n'$host'\n\n\n\n' | sudo openssl req -out server.csr -key server.key -new; #certificate signature request generation
-	sudo openssl x509 -req -in server.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out server.crt -passin pass:1234 -days 45; #certificate signature
+	openssl genrsa -out server.key 2048; #server key generation
+	printf 'ES\n\n\n\n\n'$host'\n\n\n\n' | openssl req -out server.csr -key server.key -new; #certificate signature request generation
+	openssl x509 -req -in server.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out server.crt -passin pass:1234 -days 45; #certificate signature
 	
 	cd /etc/mosquitto/cron
 	if [[ ! -d cert_log ]]
@@ -25,9 +25,9 @@ then
 		mkdir cert_log
 	fi
 	cd cert_log
-	sudo echo "[$current_date]:" "(RENEWAL) The server certificate was renewed" >> certificate_renewal.log
+	echo "[$current_date]:" "(RENEWAL) The server certificate was renewed" >> certificate_renewal.log
 
-	sudo systemctl restart mosquitto
+	systemctl restart mosquitto
 else
 	cd /etc/mosquitto/cron
 	if [[ ! -d cert_log ]]
