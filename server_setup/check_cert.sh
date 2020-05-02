@@ -27,7 +27,7 @@ then
 	cd cert_log
 	echo "[$current_date]:" "(RENEWAL) The server certificate was renewed" >> certificate_renewal.log
 
-	systemctl restart mosquitto
+	sudo systemctl restart mosquitto
 else
 	cd /etc/mosquitto/cron
 	if [[ ! -d cert_log ]]
@@ -35,5 +35,5 @@ else
 		mkdir cert_log
 	fi
 	cd cert_log
-	sudo echo "[$current_date]:" "The server certificate was not renewed. "$days_left" days left until its expiration date" >> certificate_renewal.log
+	echo "[$current_date]:" "The server certificate was not renewed. "$days_left" days left until its expiration date" >> certificate_renewal.log
 fi
