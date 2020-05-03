@@ -5,7 +5,7 @@ current_date=$(date)
 current_epoch=$(date -d "$currentdate" +"%s")
 cd /etc/mosquitto/clients
 
-host=$(hostname)
+host=$(hostname -I)
 
 		for ((n=0;n<9;n++))
 		do
