@@ -5,6 +5,7 @@ echo "$(tput setaf 2)Setting up client certificates $(tput init)"
 sudo cp client_check.sh /etc/mosquitto/cron
 chmod +x /etc/mosquitto/cron/client_check.sh
 sudo mkdir /etc/mosquitto/clients
+cd /etc/mosquitto/clients
 
 while true; do
     read -p "$(tput setaf 2)Introduce the number of clients in your system: $(tput init)" clients
