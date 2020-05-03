@@ -11,7 +11,7 @@ while true; do
     read -p "$(tput setaf 2)Introduce the number of clients in your system: $(tput init)" clients
     case $clients in
         [1-9] ) 
-		host=$(hostname)
+		host=$(hostname -I)
 		for ((n=0;n<clients;n++))
 		do
 			#create directory structure for each client
