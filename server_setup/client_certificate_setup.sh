@@ -46,9 +46,9 @@ while true; do
 		sudo systemctl start mosquitto.service
 
 		echo "$(tput setaf 2)Adding new cron job for the automatic server certificate renewal  $(tput init)";
-		crontab -l > cron_temp
-		echo '30 3 * * * sudo /etc/mosquitto/cron/client_check.sh' >> cron_temp
-		crontab cron_temp
+		sudo crontab -l > cron_temp
+		echo '40 3 * * * sudo /etc/mosquitto/cron/client_check.sh' >> cron_temp
+		sudo crontab cron_temp
 		rm cron_temp
 		echo "$(tput setaf 2)CONFIG DONE! $(tput init)";
 		break;;
