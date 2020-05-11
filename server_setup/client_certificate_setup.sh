@@ -16,13 +16,13 @@ while true; do
 		do
 			#create directory structure for each client
 			cliName="cli_"$n
-			mkdir $cliName
+			sudo mkdir $cliName
 			cd $cliName
 			echo "$(tput setaf 2)Generating client key $(tput init)";
 			sudo openssl genrsa -out client.key 2048; #client key generation
 			echo "$(tput setaf 2)Requesting certificate signature to the CA $(tput init)";
 			printf 'ES\n\n\n\n\nclient'$n'\n\n\n\n' | sudo openssl req -out client.csr -key client.key -new; #certificate signature request generation
-			echo "$(tput setaf 2)CA signing server certificate $(tput init)";
+			echo "$(tput setaf 2)CA signing certificate $(tput init)";
 			sudo openssl x509 -req -in client.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out client.crt --passin pass:1234 -days 15; #certificate signature by CA
 			cd ..
 			certTopic="cl/"$cliName
@@ -38,9 +38,18 @@ while true; do
 
 			mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t com/$cliName -i broker -p 8883
 		done
-		
+		sudo mkdir broker
+		cd broker
+		echo "$(tput setaf 2)Generating client key $(tput init)";
+			sudo openssl genrsa -out client.key 2048; #client key generation
+			echo "$(tput setaf 2)Requesting certificate signature to the CA $(tput init)";
+			printf 'ES\n\n\n\n\nbroker\n\n\n\n' | sudo openssl req -out client.csr -key client.key -new; #certificate signature request generation
+			echo "$(tput setaf 2)CA signing certificate $(tput init)";
+			sudo openssl x509 -req -in client.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out client.crt --passin pass:1234 -days 
+		cd ..
 		sudo systemctl stop mosquitto.service
 		sudo echo "require_certificate true" >> /etc/mosquitto/mosquitto.conf
+		sudo echo "use_identity_as_username true" >> /etc/mosquitto/mosquitto.conf
 		
 		sleep 1
 		sudo systemctl start mosquitto.service
