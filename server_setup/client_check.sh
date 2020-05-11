@@ -33,16 +33,16 @@ host=$(hostname -I)
 					certTopic="cl/"$cliName
 					keyTopic="k/"$cliName
 					comTopic="com/"$cliName
-					sudo mosquitto_pub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -t $certTopic -f $cliName/client.crt -p 8883 --cert $cliName/client.crt --key $cliName/client.key
+					sudo mosquitto_pub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -t $certTopic -f $cliName/client.crt -p 8883 --cert broker/client.crt --key broker/client.key
 			
    					echo "$cliName certificate published"
-					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert $cliName/client.crt --key $cliName/client.key
+					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert broker/client.crt --key broker/client.key
 			
 					sleep 1
-					sudo mosquitto_pub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -t $keyTopic -f $cliName/client.key -p 8883 --cert $cliName/client.crt --key $cliName/client.key
+					sudo mosquitto_pub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -t $keyTopic -f $cliName/client.key -p 8883 --cert broker/client.crt --key broker/client.key
 			
 
-					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert $cliName/client.crt --key $cliName/client.key
+					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert broker/client.crt --key broker/client.key
 
 					cd /etc/mosquitto
 					if [[ ! -d cert_log ]]
