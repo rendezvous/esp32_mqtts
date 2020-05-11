@@ -21,9 +21,13 @@ topic write esp32/sec
 topic read esp32/#
 topic read ota/apache/#
 topic write ota/com/#
+topic write notf/#
+topic read inc/#
 
 user client
 topic write esp32/led
 topic write esp32/sec
 topic read esp32/#
+topic read notf/#
+topic write inc/#
 
