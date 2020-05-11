@@ -1,0 +1,29 @@
+#allow broker (only) to publish to certificate and key topics
+user broker
+topic write k/#
+topic write cl/#
+
+user client0
+topic read esp32/led
+topic read esp32/sec
+topic write esp32/rad
+topic write esp32/temp
+topic write esp32/hum
+topic write esp32/ftemp
+topic write com/cli_0
+topic write ota/apache/cli_0
+topic read k/#
+topic read cl/#
+
+user admin
+topic write esp32/led
+topic write esp32/sec
+topic read esp32/#
+topic read ota/apache/#
+topic write ota/com/#
+
+user client
+topic write esp32/led
+topic write esp32/sec
+topic read esp32/#
+
