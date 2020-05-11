@@ -48,6 +48,7 @@ while true; do
 			sudo openssl x509 -req -in client.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out client.crt --passin pass:1234 -days 700
 		cd ..
 		sudo systemctl stop mosquitto.service
+		sudo cat client_conf > /etc/mosquitto/mosquitto.conf
 		sudo echo "require_certificate true" >> /etc/mosquitto/mosquitto.conf
 		sudo echo "use_identity_as_username true" >> /etc/mosquitto/mosquitto.conf
 		
