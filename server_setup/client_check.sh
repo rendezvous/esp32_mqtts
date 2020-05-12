@@ -54,8 +54,8 @@ host=$(hostname -I)
 
 					sudo systemctl restart mosquitto
 				else
-					cd /etc/mosquitto
-					if [[ ! -d cert_log ]]
+					cd /etc/mosquitto/cron
+					if [[ ! -d client_cert_log ]]
 					then
 						mkdir client_cert_log
 					fi
