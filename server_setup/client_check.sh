@@ -44,10 +44,10 @@ host=$(hostname -I)
 
 					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert broker/client.crt --key broker/client.key
 
-					cd /etc/mosquitto
-					if [[ ! -d cert_log ]]
+					cd /etc/mosquitto/cron
+					if [[ ! -d client_cert_log ]]
 					then
-						mkdir client_cert_log
+						sudo mkdir client_cert_log
 					fi
 					cd client_cert_log
 					sudo echo "[$current_date]:" "(RENEWAL) Client $n certificate was renewed" >> client_certificate_renewal.log
@@ -57,7 +57,7 @@ host=$(hostname -I)
 					cd /etc/mosquitto/cron
 					if [[ ! -d client_cert_log ]]
 					then
-						mkdir client_cert_log
+						sudo mkdir client_cert_log
 					fi
 					cd client_cert_log
 					
