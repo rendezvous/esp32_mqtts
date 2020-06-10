@@ -16,7 +16,7 @@ if [ $days_left -lt 8 ]
 then
 	rm server*
 	openssl genrsa -out server.key 2048; #server key generation
-	openssl req -out server.csr -key server.key -new "/C=ES/ST=Palma/L=test/O=Global Security/OU=IT Department/CN=192.168.1.40"; #certificate signature request generation
+	openssl req -out server.csr -key server.key -new -subj "/C=ES/ST=Palma/L=test/O=Global Security/OU=IT Department/CN=192.168.1.40"; #certificate signature request generation
 	openssl x509 -req -in server.csr -CA /etc/mosquitto/ca_certificates/ca.crt -CAkey /etc/mosquitto/ca_certificates/ca.key -CAcreateserial -out server.crt -passin pass:1234 -days 45; #certificate signature
 	
 	cd /etc/mosquitto/cron
