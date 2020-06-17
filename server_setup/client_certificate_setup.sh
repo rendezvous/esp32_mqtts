@@ -37,8 +37,10 @@ while true; do
 			sleep 1
 			mosquitto_pub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -t $keyTopic -f $cliName/client.key -i broker -p 8883
 			
-
-			mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t com/$cliName -i broker -p 8883
+			#log MAC address
+			echo $cliname - $(date) >> macLog.txt
+			mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t com/$cliName -i broker -p 8883 >> macLog.txt
+			echo "-------------------------------" >> macLog.txt
 		done
 		sudo mkdir broker
 		cd broker
