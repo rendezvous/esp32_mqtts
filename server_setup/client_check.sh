@@ -42,7 +42,7 @@ host=$(hostname -I)
 					sudo mosquitto_pub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -t $keyTopic -f $cliName/client.key -p 8883 --cert broker/client.crt --key broker/client.key
 			
 					#log MAC address
-					echo $cliname - $(date) >> macLog.txt
+					echo $cliName - $(date) >> macLog.txt
 					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert broker/client.crt --key broker/client.key >> macLog.txt
 					echo "-------------------------------" >> macLog.txt
 					
