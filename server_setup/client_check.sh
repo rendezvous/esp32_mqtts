@@ -43,7 +43,7 @@ host=$(hostname -I)
 			
 					#log MAC address
 					echo $cliname - $(date) >> macLog.txt
-					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert broker/client.crt --key broker/client.key
+					sudo mosquitto_sub -d -h $host --cafile /etc/mosquitto/ca_certificates/ca.crt -C 1 -t $comTopic -p 8883 --cert broker/client.crt --key broker/client.key >> macLog.txt
 					echo "-------------------------------" >> macLog.txt
 					
 					cd /etc/mosquitto/cron
