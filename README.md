@@ -4,7 +4,7 @@ Tested on Ubuntu 18.04.3 LTS
 
 **Instructions:**
 
-Under the folder "server_setup" you'll find two scripts and a mosquitto configuration file.
+Under the folder "server_setup" you'll find some scripts, two different Mosquitto configuration files and an example ACL file.
 
 - ```mqtts_setup.sh``` 
 
