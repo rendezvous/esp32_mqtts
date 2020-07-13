@@ -53,4 +53,4 @@ Restarts the Mosquitto broker to a state where client certificates are not used
 
 - ```remove_mqttDB.sh```
 
-Deletes the Mosquitto Database (for debuging purposes)
+Deletes the Mosquitto Database (for debugging purposes)
