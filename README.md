@@ -38,3 +38,19 @@ The example ```mqtt_tls.ino``` simply connects to port 8883 of your server and s
 6- To check if the ESP32 is publishing correctly to esp32/pub: ```mosquitto_sub -d -h <hostname> --cafile /etc/mosquitto/ca_certificates/ca.crt -t esp32/pub -p 8883```
 
 7- If it's not working please check ```sudo cat /var/log/mosquitto/mosquitto.log```. All the error logs will be there. If you need help, feel free to open a new issue in this respository.
+
+- ```client_certificate_setup.sh```
+
+Performs the necessary actions to use client certificates in your installation's microcontrollers
+
+- ```client_cert.sh```
+
+Provides the needed to renew your clients' certificates when the expiration date is close
+
+- ```restart.sh```
+
+Restarts the Mosquitto broker to a state where client certificates are not used
+
+- ```remove_mqttDB.sh```
+
+Deletes the Mosquitto Database (for debuging purposes)
